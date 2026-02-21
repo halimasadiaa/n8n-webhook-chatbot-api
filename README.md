@@ -1,2 +1,33 @@
-# n8n-webhook-chatbot-api
-A simple webhook-based chatbot built with n8n. This workflow receives user messages via a webhook, processes them using conditional (IF) logic, and returns a JSON response. It replies to “hello” with a greeting and provides a fallback message for other inputs. Ideal for learning n8n automation and REST API workflow basics.
+n8n CV Shortlisting Automation
+
+ 📌 Project Overview
+This project automates CV shortlisting using n8n.
+
+ 🚀 Features
+- Fetch CVs from Google Drive
+- Extract skills
+- Compare with required skills
+- Shortlist candidates
+- Select best CV at end
+
+🛠 Tech Stack
+- n8n
+- Google Drive API
+- JavaScript (Function nodes)
+
+📂 Files
+- workflow.json → Main automation workflow
+
+🧠 Logic
+The workflow:
+1. Reads CVs one by one
+2. Stores shortlisted CVs
+3. Waits until all CVs processed
+4. Selects the best match
+
+📸 Screenshots
+(Add workflow screenshots here)
+
+👩‍💻 Author
+Haleema Sadia
+AI Student
