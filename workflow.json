@@ -1,0 +1,239 @@
+{
+  "name": "beginner chatbot",
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6cd6a473-70f1-49a7-8450-7dc031066a54",
+              "name": "userMessage",
+              "value": "={{$json.query.message}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -672,
+        80
+      ],
+      "id": "84c5d7ea-bf5d-4105-87c7-3794e3b322e6",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "d373e9b8-f4a4-4cda-b20a-721824b8d7b7",
+              "leftValue": "={{$json.userMessage.toLowerCase()}}",
+              "rightValue": "hello",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -464,
+        80
+      ],
+      "id": "c307793d-28f5-4d47-9b36-41e57b60f64d",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "649771a2-25c4-48f2-8503-746cba5d8348",
+              "name": "reply",
+              "value": "Sorry, I don’t understand. Try typing hello.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -256,
+        176
+      ],
+      "id": "d6001dde-96c3-4878-8959-4110a5918348",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6f841835-673d-450d-8ae7-1558ece3e5f6",
+              "name": "reply",
+              "value": "Hi! 👋",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -256,
+        -16
+      ],
+      "id": "e8edcb4f-c469-444b-accf-9bfd05c712c6",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -32,
+        96
+      ],
+      "id": "17139bc2-65cc-4a0e-b494-515f0ee84c42",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"reply\": \"={{ $json.reply }}\"\n}\n",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        176,
+        80
+      ],
+      "id": "758151b4-cf2e-4653-9cb7-9a1ab1f50638",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "path": "chatbot",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -880,
+        80
+      ],
+      "id": "0476abc0-feca-4f25-8609-bd27b378103b",
+      "name": "Webhook",
+      "webhookId": "7095b0d4-39cd-43a6-b653-762b083ff36e"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "94e046a1-5c49-4b6d-9523-244737f2ec76",
+  "meta": {
+    "instanceId": "c051098d14d6b4235abee700cc5988d89e60735529e89ac4d4077a238fb32742"
+  },
+  "id": "pzvWJLb7ebGfqrnM",
+  "tags": []
+}
